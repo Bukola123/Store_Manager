@@ -11,6 +11,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/category', require('./routes/category'));
 app.use('/api/v1/products', require('./routes/products'));
 /*app.use('/api/v1/channels', require('./routes/channels'));*/
 

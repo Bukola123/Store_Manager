@@ -8,7 +8,7 @@ const categorySchema = new Schema ({
         type: String,
         unique: true
     },
-    product: [{
+    products: [{
         type: Schema.Types.ObjectId,
         ref: 'Products'
     }],
@@ -21,5 +21,6 @@ const categorySchema = new Schema ({
         default: Date.now()
     }
 });
+
 
 module.exports = mongoose.model('Category',categorySchema);

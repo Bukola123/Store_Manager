@@ -27,7 +27,7 @@ const productSchema = new Schema ({
         required: true
     },
     category: {
-        type: Schema.Types.String,
+        type: Schema.Types.ObjectId,
         ref: 'Category'
     },
     updatedAt: {
@@ -43,26 +43,18 @@ const productSchema = new Schema ({
 
 // create profile after user is created
 productSchema.post('save', async function (doc, next) {
-    const category = await Category.findOne({ name: doc.category });
+    const category = await Category.findById( doc.category );
     
-    //const product = category.product.push(doc._id);
-    //const catProduct = await Category.findOne({ product: doc._id });
-    if (!category) {
-        const newCategory = new Category({
-            name: doc.category
-        });
-        
-        await newCategory.save();
-        
-        
+    if (!category.products.includes(doc._id)){
+        category.products.push(doc._id);
 
-
-        doc.category = newCategory.name;
-        await doc.save();
-        next();
+        category.save();
+        
+        
     }
-    //res.console('Credential already exist in the database')
-    next();
+    
+    next();    
+
 });
 
 

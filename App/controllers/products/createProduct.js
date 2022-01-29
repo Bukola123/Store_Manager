@@ -14,6 +14,7 @@ exports.createProduct = async (req, res) => {
     }
 
     const {name , Description,price,qty, category} = req.body;
+    //const{category} = req.params.id;
 
     
     const product = new Product({
