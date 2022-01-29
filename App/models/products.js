@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const mongoose = require('mongoose');
 const { required } = require('nodemon/lib/config');
 const Schema = mongoose.Schema;
@@ -43,16 +44,24 @@ const productSchema = new Schema ({
 // create profile after user is created
 productSchema.post('save', async function (doc, next) {
     const category = await Category.findOne({ name: doc.category });
+    
+    //const product = category.product.push(doc._id);
+    //const catProduct = await Category.findOne({ product: doc._id });
     if (!category) {
         const newCategory = new Category({
             name: doc.category
         });
+        
         await newCategory.save();
+        
+        
+
 
         doc.category = newCategory.name;
         await doc.save();
         next();
     }
+    //res.console('Credential already exist in the database')
     next();
 });
 

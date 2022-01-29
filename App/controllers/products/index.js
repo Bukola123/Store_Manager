@@ -1,10 +1,13 @@
 const {createProduct} = require('./createProduct');
-const {updateProduct} = require('./updateProducts');
+const {updateProduct, getAllProduct, getProduct} = require('./updateProducts');
+
 
 
 
 
 module.exports = {
     createProduct,
-    updateProduct
+    updateProduct,
+    getAllProduct,
+    getProduct
 };
