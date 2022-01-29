@@ -8,10 +8,10 @@ const Product = require('../../models/products');
 
 exports.getProduct = async (req, res) => {
     try {
-        const product = await Product.findById(req.params)
+        const product = await Product.findById(req.params.id)
         res.json(product);
     } catch (err) {
-        res.status(500).json({ errors: [{ msg: err /* Internal server error'*/ }] });
+        res.status(500).json({ errors: [{ msg: err  }] });
     }
 };
 
@@ -64,16 +64,21 @@ exports.updateProduct = async (req, res) => {
     let product;
     try {
         product = await Product.findOneAndUpdate(
-            { product: req.product.id },
+            { _id : req.params.id },
             { $set: { ...req.body, updatedAt: Date.now() } },
             { new: true }
         )
             .select('-__v')
             .select('-category');
+
     } catch (err) {
         //res.status(500).send('Internal Server Error');
         return res.status(500).json({ msg: err /*'Internal server error' */});
     }
+    console.log(product);
+   
 
     return res.status(200).json(product);
 };
+
+
