@@ -72,8 +72,8 @@ exports.updateProduct = async (req, res) => {
             .select('-category');
 
     } catch (err) {
-        //res.status(500).send('Internal Server Error');
-        return res.status(500).json({ msg: err /*'Internal server error' */});
+        res.status(500).send('Internal Server Error');
+        
     }
     console.log(product);
    

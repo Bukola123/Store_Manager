@@ -13,8 +13,8 @@ exports.createProduct = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {name , Description,price,qty, category} = req.body;
-    //const{category} = req.params.id;
+    const {name , Description,price,qty} = req.body;
+    const category = req.params.categoryId;
 
     
     const product = new Product({
@@ -35,7 +35,7 @@ exports.createProduct = async (req, res) => {
                 errors: [{ msg: 'Product already exists' }]
             });
         }
-        return res.status(500).json({ msg: err /*'Internal server error' */});
+        return res.status(500).json({ msg:err /*'Internal server error'*/ });
     };
 
 

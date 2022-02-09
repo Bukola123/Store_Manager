@@ -13,7 +13,8 @@ app.use(express.json());
 app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/category', require('./routes/category'));
 app.use('/api/v1/products', require('./routes/products'));
-/*app.use('/api/v1/channels', require('./routes/channels'));*/
+app.use('/api/v1/carts', require('./routes/carts'))
+app.use('/api/v1/sales', require('./routes/sales'))
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

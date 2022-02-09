@@ -8,7 +8,8 @@ const {
     updateProduct,
     createProduct,
     getAllProduct,
-    getProduct
+    getProduct,
+    deleteProduct
 } = require('../App/controllers/products/index');
 
 
@@ -24,10 +25,11 @@ const router = express.Router();
 const upload = multer({ dest: 'tmp/' });
 
 
-router.post('/', [auth,admin, productValidation], createProduct);
+router.patch('/:categoryId', [auth,admin, productValidation], createProduct);
 router.get('/',auth, getAllProduct);
 router.patch('/:id',[auth,admin], updateProduct);
 router.get('/:id',auth, getProduct);
+router.delete('/:productId', [auth,admin], deleteProduct);
 
 
 
