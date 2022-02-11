@@ -12,14 +12,15 @@ const cartSchema = new Schema ({
     }],
     quantity: {
         type: Number,
-        required: true
+        default: 0
     },
     amount:{
         type: Number
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     createdAt: {
         type: Date,
@@ -28,7 +29,11 @@ const cartSchema = new Schema ({
     updatedAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
 });
 
 //create sales id after cart is created

@@ -17,7 +17,8 @@ const {
     resendVerificationLink,
     makeAdmin,
     addUser,
-    newuserchangePassword
+    newuserchangePassword,
+    deactivateUser
 } = require('../App/controllers/auth');
 const auth = require('../App/middleware/auth');
 const admin = require('../App/middleware/admin');
@@ -27,6 +28,7 @@ const router = express.Router();
 
 router.post('/register', registrationValidation, registerUser);
 router.get('/verify', verifyUser);
+router.get('/deactivateUser',[auth,admin], deactivateUser);
 router.post('/verify/resend', emailValidation, resendVerificationLink);
 router.post('/login', authCredentialsValidation, loginUser);
 router.patch(

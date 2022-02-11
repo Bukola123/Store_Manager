@@ -6,39 +6,32 @@ const Cart = require('../../models/carts');
 
 exports.addCart = async (req, res) => {
     try {
+        /*const { productId } = req.params;
+        console.log(productId);*/
         const product = await Product.findById(req.params.productId);
-        const quantity = req.body;
+        let {quan }= req.body;
+
+        let quantity = Number(quan);
+        console.log(quantity);
+
         console.log(product);
+        
         if (!product) {
             return res
                 .status(404)
                 .json({ errors: [{ msg: 'Product not found' }] });
         };
-        
-        /*const cart = await Cart.findById(req.product.category);
-        console.log(cart);
 
-        
-
-        /*if (cart.product.includes(product._id)) {
-            return res.status(400).json({
-                errors: [{ msg: 'Product already added to cart' }]
-            });
-        }*/
-
-        
-        
+         
 
         //check if qty pick is less or equal to available qty
         const  stock = product.qty;
         const price = product.price;
 
-        console.log(stock);
-        console.log(price);
 
-        if(! quantity > stock ){
+        if( quantity > stock ){
             return res.status(400).json({
-                errors: [{ msg: 'Quantity requested not available' }]
+                errors: [{ msg: `Quantity requested not available, only ${stock} is left ` }]
             });
 
         };
@@ -46,37 +39,59 @@ exports.addCart = async (req, res) => {
 
         console.log(`Your amount is ${amt}`);
 
-        const catalog = new Cart({
-            products:product,
+        let cart;
+        try {
+            cart = await Cart.findOneAndUpdate(
+                { user: req.user.id },
+                { $set: { ...req.body, updatedAt: Date.now() } },
+                { new: true }
+            )
+                .select('-__v')
+                .select('-user');
+        } catch (err) {
+            res.status(500).send('Internal Server Error');
+        }
+
+        return res.status(200).json(cart);
+
+    } catch (error) {
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                errors: [{ msg: 'Invalid product id' }]
+            });
+        }
+        res.status(500).json({ errors: [{ msg: error  }] });
+        //res.status(500).json({ errors: [{ msg: err /*'Internal server error'*/ }] });
+    }
+
+
+};
+
+
+
+
+
+
+
+
+        /*const catalog = Cart({
+            products: product._id,
             quantity: quantity,
             price: price,
             amount: amt,
             
         });
+        
     
         // save the cart
         try {
             await catalog.save();
         } catch (err) {
-            if (err.code == 11000) {
-                return res.status(400).json({
-                    errors: [{ msg: 'Cart already exists' }]
-                });
-            }
-            return res.status(500).json({ msg: err /*'Internal server error'*/ });
+            console.log(err.message);
+            return res.status(500).json({ message: 'Server error' });
         }
-        res.status(200).json(cart);
+
+        res.status(200).json(Cart);*/
 
         
-        } catch (error) {
-            if (error.name === 'CastError') {
-                return res.status(400).json({
-                    errors: [{ msg: 'Invalid product id' }]
-                });
-            }
-            res.status(500).json({ errors: [{ msg: error  }] });
-            //res.status(500).json({ errors: [{ msg: err /*'Internal server error'*/ }] });
-        }
-
-
-};
+        

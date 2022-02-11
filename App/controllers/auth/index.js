@@ -4,6 +4,7 @@ const { registerUser } = require('./registerUser');
 const { changePassword, forgotPassword, resetPassword , newuserchangePassword} = require('./password');
 const {makeAdmin } = require('./makeAdmin');
 const {addUser} = require('./addUsers');
+const {deactivateUser} = require('./deactivateUser');
 
 
 module.exports = {
@@ -16,5 +17,6 @@ module.exports = {
     resetPassword,
     makeAdmin,
     addUser,
-    newuserchangePassword
+    newuserchangePassword,
+    deactivateUser
 };
