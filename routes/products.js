@@ -27,7 +27,7 @@ const upload = multer({ dest: 'tmp/' });
 
 router.patch('/:categoryId', [auth,admin, productValidation], createProduct);
 router.get('/',auth, getAllProduct);
-router.patch('/:id',[auth,admin], updateProduct);
+router.post('/:id',[auth,admin], updateProduct);
 router.get('/:id',auth, getProduct);
 router.delete('/:productId', [auth,admin], deleteProduct);
 

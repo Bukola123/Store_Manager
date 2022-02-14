@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 const Products = require('./products');
 const Sales = require('../models/sales');
 const Customer = require('../models/customer');
 
+const Schema = mongoose.Schema;
 
 const cartSchema = new Schema ({
     products: [{
@@ -34,33 +35,6 @@ const cartSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-});
-
-//create sales id after cart is created
-cartSchema.post('save', async function (doc, next) {
-    // create customer profile
-    const {name, phone} = req.body;
-    
-    const customer = new Customer({
-        name,
-        phone
-    });
-
-    // save the customer
-    try {
-        await customer.save();
-    } catch (err) {
-        return res.status(400).json({
-            errors: [{ msg: 'Internal server error' }]
-        });
-    };
-
-    
-
-
-next();
-
-
 });
 
 

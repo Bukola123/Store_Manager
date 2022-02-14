@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 
 const Product = require('../../models/products');
 const Cart = require('../../models/carts');
+const User = require('../../models/users');
 
 
 exports.addCart = async (req, res) => {
@@ -38,11 +39,13 @@ exports.addCart = async (req, res) => {
         const amt = quantity * price
 
         console.log(`Your amount is ${amt}`);
-
+        const use = await User.findById(req.user.id);
+        console.log(user);
+        console.log('what is happening')
         let cart;
         try {
             cart = await Cart.findOneAndUpdate(
-                { user: req.user.id },
+                { user: req.user._id },
                 { $set: { ...req.body, updatedAt: Date.now() } },
                 { new: true }
             )

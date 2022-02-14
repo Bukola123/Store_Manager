@@ -15,7 +15,12 @@ exports.createProduct = async (req, res) => {
 
     const {name , Description,price,qty} = req.body;
     const category = req.params.categoryId;
+    
 
+    const cat = await Category.findById(category);
+    if (!cat) {
+        return res.status(401).json({ msg: 'Invalid credentials' });
+    }
     
     const product = new Product({
         name,
@@ -35,9 +40,15 @@ exports.createProduct = async (req, res) => {
                 errors: [{ msg: 'Product already exists' }]
             });
         }
-        return res.status(500).json({ msg:err /*'Internal server error'*/ });
+        return res.status(500).json({ msg:'Internal server error' });
     };
 
+    if (!cat.products.includes(product._id)){
+        cat.products.push(product._id);
+        cat.save();
+        
+        
+    }
 
 
     if (req.file) {
@@ -64,6 +75,10 @@ exports.createProduct = async (req, res) => {
                 .json({ errors: [{ msg: 'Error uploading image' }] });
         }
     };
+
+
+    
+    
 
         return res.status(200).json(product);
 };

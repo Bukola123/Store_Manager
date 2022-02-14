@@ -41,7 +41,7 @@ const productSchema = new Schema ({
 
 });
 
-// create category after product is created
+/*// create category after product is created
 productSchema.post('save', async function (doc, next) {
     const category = await Category.findById( doc.category );
     console.log(started);
@@ -55,7 +55,7 @@ productSchema.post('save', async function (doc, next) {
     
     next();    
 
-});
+});*/
 
 
 
