@@ -12,7 +12,7 @@ const productSchema = new Schema ({
         required: true,
         unique: true
     },
-    images: {
+    avatar: {
         type: String
     },
     description: {

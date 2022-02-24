@@ -19,10 +19,6 @@ const customerSchema = new Schema ({
     sales: {
         type: Schema.Types.ObjectId,
         ref: 'Sales'
-    },
-    cart: {
-        type: Schema.Types.ObjectId,
-        ref: 'Cart'
     }
 });
 

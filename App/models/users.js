@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 const Sales = require('./sales')
 const Cart = require('./carts');
 
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema ({
     email: {
@@ -56,14 +57,9 @@ const userSchema = new Schema ({
     sales: [{
         type: Schema.Types.ObjectId,
         ref: 'Sales'
-    }],
-    cart:{
-        type: Schema.Types.ObjectId,
-        ref: 'Cart'
-    }
-});
+    }]
 
-// create cart after user is created
+/* create cart after user is created
 userSchema.post('save', async function (doc, next) {
     const cart = await Cart.findOne({ user: doc._id });
     if (!cart) {
@@ -76,7 +72,7 @@ userSchema.post('save', async function (doc, next) {
         await doc.save();
         next();
     }
-    next();
+    next();*/
 });
 
 

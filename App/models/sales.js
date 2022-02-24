@@ -24,7 +24,11 @@ const saleSchema = new Schema ({
     soldAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+    quantity: {
+        type: Number,
+        default: 0
+    },
 
 });
 

@@ -6,16 +6,14 @@ const User = require('../../models/users');
 
 
 exports.addCart = async (req, res) => {
+    
     try {
-        /*const { productId } = req.params;
-        console.log(productId);*/
+        
         const product = await Product.findById(req.params.productId);
         let {quan }= req.body;
 
         let quantity = Number(quan);
-        console.log(quantity);
-
-        console.log(product);
+        
         
         if (!product) {
             return res
@@ -26,8 +24,8 @@ exports.addCart = async (req, res) => {
          
 
         //check if qty pick is less or equal to available qty
-        const  stock = product.qty;
-        const price = product.price;
+        /*const  stock = product.qty;*/
+        //const price = product.price;
 
 
         if( quantity > stock ){
@@ -38,21 +36,21 @@ exports.addCart = async (req, res) => {
         };
         const amt = quantity * price
 
-        console.log(`Your amount is ${amt}`);
-        const use = await User.findById(req.user.id);
-        console.log(user);
-        console.log('what is happening')
+        
+        //const use = await User.findById(req.user.id);
+        
+        
         let cart;
         try {
             cart = await Cart.findOneAndUpdate(
-                { user: req.user._id },
+                { user: req.user.id },
                 { $set: { ...req.body, updatedAt: Date.now() } },
                 { new: true }
             )
                 .select('-__v')
                 .select('-user');
         } catch (err) {
-            res.status(500).send('Internal Server Error');
+            return res.status(500).json({ errors: [{ msg: error  }] });
         }
 
         return res.status(200).json(cart);
@@ -63,7 +61,7 @@ exports.addCart = async (req, res) => {
                 errors: [{ msg: 'Invalid product id' }]
             });
         }
-        res.status(500).json({ errors: [{ msg: error  }] });
+        return res.status(500).json({ errors: [{ msg: error  }] });
         //res.status(500).json({ errors: [{ msg: err /*'Internal server error'*/ }] });
     }
 

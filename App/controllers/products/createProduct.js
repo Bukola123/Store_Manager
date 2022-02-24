@@ -61,12 +61,12 @@ exports.createProduct = async (req, res) => {
 
         // upload image to cloudinary
         try {
-            const images = await cloudinary.uploader.upload(req.file.path, {
+            const avatar = await cloudinary.uploader.upload(req.file.path, {
                 resource_type: 'image',
                 public_id: `store-manager/products/${req.Product.id}}/images`,
                 overwrite: true
             });
-            req.body.images = images.secure_url;
+            req.body.avatar = avatar.secure_url;
             // delete old avatar
             await unlink(`${req.file.path}`);
         } catch (error) {

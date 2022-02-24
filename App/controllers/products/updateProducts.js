@@ -7,12 +7,15 @@ const Product = require('../../models/products');
 
 
 exports.getProduct = async (req, res) => {
+    
     try {
         const product = await Product.findById(req.params.id)
-        res.json(product);
+        return res.json(product);
     } catch (err) {
-        res.status(500).json({ errors: [{ msg: err  }] });
+        
+        return res.status(500).json({ errors: [{ msg: err  }] });
     }
+    
 };
 
 
@@ -75,7 +78,7 @@ exports.updateProduct = async (req, res) => {
         res.status(500).send('Internal Server Error');
         
     }
-    console.log(product);
+    
    
 
     return res.status(200).json(product);
