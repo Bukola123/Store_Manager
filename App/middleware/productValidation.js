@@ -7,3 +7,4 @@ exports.productValidation = [
     check('qty', 'Enter a valid quantity available').not().isEmpty(),
     check('images', 'Enter a valid jpeg images'),
 ];
+

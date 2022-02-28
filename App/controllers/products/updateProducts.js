@@ -13,7 +13,7 @@ exports.getProduct = async (req, res) => {
         return res.json(product);
     } catch (err) {
         
-        return res.status(500).json({ errors: [{ msg: err  }] });
+        return res.status(500).json({ errors: [{ msg: 'Internal server error'  }] });
     }
     
 };
@@ -38,10 +38,12 @@ exports.updateProduct = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
+    
     if (req.file) {
+        
         // check that provided file is an image
-        if (!req.file.originalname.endsWith('jpg')) {
+        if (!req.file.originalname.endsWith('jpg') &&
+        !req.file.originalname.endsWith('jpeg')) {
             return res
                 .status(400)
                 .json({ errors: [{ msg: 'Please upload a valid jpg file' }] });
@@ -55,6 +57,7 @@ exports.updateProduct = async (req, res) => {
                 overwrite: true
             });
             req.body.avatar = avatar.secure_url;
+            console.log(avatar)
             // delete old avatar
             await unlink(`${req.file.path}`);
         } catch (error) {
@@ -63,7 +66,7 @@ exports.updateProduct = async (req, res) => {
                 .json({ errors: [{ msg: 'Error uploading image' }] });
         }
     }
-
+    
     let product;
     try {
         product = await Product.findOneAndUpdate(

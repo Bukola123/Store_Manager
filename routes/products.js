@@ -9,7 +9,8 @@ const {
     createProduct,
     getAllProduct,
     getProduct,
-    deleteProduct
+    deleteProduct,
+    addBulkProduct
 } = require('../App/controllers/products/index');
 
 
@@ -30,6 +31,7 @@ router.get('/',auth, getAllProduct);
 router.post('/:id',[auth,admin], updateProduct);
 router.get('/:id',auth, getProduct);
 router.delete('/:productId', [auth,admin], deleteProduct);
+router.patch('/bulk/:categoryId', [auth,admin, productValidation], addBulkProduct);
 
 
 

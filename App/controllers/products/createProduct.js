@@ -45,7 +45,7 @@ exports.createProduct = async (req, res) => {
 
     if (!cat.products.includes(product._id)){
         cat.products.push(product._id);
-        cat.save();
+        
         
         
     }

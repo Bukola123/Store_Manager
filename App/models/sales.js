@@ -14,21 +14,26 @@ const saleSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    price: {
-        type: Number
-    },
-    products: {
+    prices: [{
+        type: String,
+        default: 100
+    }],
+    products: [{
         type: Schema.Types.ObjectId,
         ref: 'Products'
-    },
+    }],
     soldAt: {
         type: Date,
         default: Date.now()
     },
-    quantity: {
+    quantity: [{
         type: Number,
         default: 0
-    },
+    }],
+    totalPrice:{
+        type: Number,
+        default: 0
+    }
 
 });
 

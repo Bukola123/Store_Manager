@@ -21,12 +21,6 @@ exports.addCart = async (req, res) => {
                 .json({ errors: [{ msg: 'Product not found' }] });
         };
 
-         
-
-        //check if qty pick is less or equal to available qty
-        /*const  stock = product.qty;*/
-        //const price = product.price;
-
 
         if( quantity > stock ){
             return res.status(400).json({
@@ -37,8 +31,7 @@ exports.addCart = async (req, res) => {
         const amt = quantity * price
 
         
-        //const use = await User.findById(req.user.id);
-        
+               
         
         let cart;
         try {
@@ -62,37 +55,10 @@ exports.addCart = async (req, res) => {
             });
         }
         return res.status(500).json({ errors: [{ msg: error  }] });
-        //res.status(500).json({ errors: [{ msg: err /*'Internal server error'*/ }] });
+        
     }
 
 
 };
 
 
-
-
-
-
-
-
-        /*const catalog = Cart({
-            products: product._id,
-            quantity: quantity,
-            price: price,
-            amount: amt,
-            
-        });
-        
-    
-        // save the cart
-        try {
-            await catalog.save();
-        } catch (err) {
-            console.log(err.message);
-            return res.status(500).json({ message: 'Server error' });
-        }
-
-        res.status(200).json(Cart);*/
-
-        
-        
