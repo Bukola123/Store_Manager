@@ -22,5 +22,6 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
-  }
+  },
+  "repository": "https://github.com/Bukola123/Store_Manager.git"
 }
