@@ -38,35 +38,7 @@ exports.updateProduct = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    
-    if (req.file) {
-        
-        // check that provided file is an image
-        if (!req.file.originalname.endsWith('jpg') &&
-        !req.file.originalname.endsWith('jpeg')) {
-            return res
-                .status(400)
-                .json({ errors: [{ msg: 'Please upload a valid jpg file' }] });
-        }
 
-        // upload image to cloudinary
-        try {
-            const avatar = await cloudinary.uploader.upload(req.file.path, {
-                resource_type: 'image',
-                public_id: `store_Manager/products/${req.product.id}}/images`,
-                overwrite: true
-            });
-            req.body.avatar = avatar.secure_url;
-            console.log(avatar)
-            // delete old avatar
-            await unlink(`${req.file.path}`);
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ errors: [{ msg: 'Error uploading image' }] });
-        }
-    }
-    
     let product;
     try {
         product = await Product.findOneAndUpdate(
@@ -81,6 +53,37 @@ exports.updateProduct = async (req, res) => {
         res.status(500).send('Internal Server Error');
         
     }
+    
+    if (req.file) {
+        // check that provided file is an image
+        if (!req.file.originalname.endsWith('jpeg') && !req.file.originalname.endsWith('jpg')) {
+            await unlink(`${req.file.path}`);
+            return res
+                .status(400)
+                .json({ errors: [{ msg: 'Please upload a valid jpeg file' }] });
+        }
+
+        // upload image to cloudinary
+        try {
+            const avatar = await cloudinary.uploader.upload(req.file.path, {
+                resource_type: 'image',
+                public_id: `store-manager/products/${product._id}}/images`,
+                overwrite: true
+            });
+            product.avatar = avatar.secure_url;
+            product.save();
+            // delete old avatar
+            await unlink(`${req.file.path}`);
+        } catch (error) {
+            console.log(error)
+            return res
+                .status(500)
+                .json({ errors: [{ msg: 'Error uploading image' }] });
+        }
+    };
+
+    
+    
     
    
 

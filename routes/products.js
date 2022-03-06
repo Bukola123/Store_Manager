@@ -26,9 +26,9 @@ const router = express.Router();
 const upload = multer({ dest: 'tmp/' });
 
 
-router.patch('/:categoryId', [auth,admin, productValidation],upload.single('avatar'), createProduct);
+router.patch('/:categoryId', [auth,admin, productValidation,upload.single('avatar')], createProduct);
 router.get('/',auth, getAllProduct);
-router.post('/:id',[auth,admin], updateProduct);
+router.post('/:id',[auth,admin,upload.single('avatar'),], updateProduct);
 router.get('/:id',auth, getProduct);
 router.delete('/:productId', [auth,admin], deleteProduct);
 router.patch('/bulk/:categoryId', [auth,admin, productValidation], addBulkProduct);

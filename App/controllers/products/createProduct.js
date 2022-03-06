@@ -53,30 +53,34 @@ exports.createProduct = async (req, res) => {
 
     if (req.file) {
         // check that provided file is an image
-        if (!req.file.originalname.endsWith('jpg')) {
+        if (!req.file.originalname.endsWith('jpeg') && !req.file.originalname.endsWith('jpg')) {
+            await unlink(`${req.file.path}`);
             return res
                 .status(400)
-                .json({ errors: [{ msg: 'Please upload a valid jpg file' }] });
+                .json({ errors: [{ msg: 'Please upload a valid jpeg file' }] });
         }
 
         // upload image to cloudinary
         try {
             const avatar = await cloudinary.uploader.upload(req.file.path, {
                 resource_type: 'image',
-                public_id: `store-manager/products/${req.Product.id}}/images`,
+                public_id: `store-manager/products/${product._id}}/images`,
                 overwrite: true
             });
-            req.body.avatar = avatar.secure_url;
+            product.avatar = avatar.secure_url;
+            product.save();
             // delete old avatar
             await unlink(`${req.file.path}`);
         } catch (error) {
+            
             return res
                 .status(500)
                 .json({ errors: [{ msg: 'Error uploading image' }] });
         }
     };
 
-
+       /* product.avatar = req.body.avatar;
+        product.save();*/
     
     
 
