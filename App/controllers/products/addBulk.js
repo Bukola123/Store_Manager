@@ -63,7 +63,7 @@ exports.addBulkProduct = async (req, res) => {
     
     
         if (req.file) {
-            console.log("Welcome")
+            
             // check that provided file is an image
             if (!req.file.originalname.endsWith('jpg')) {
                 return res
