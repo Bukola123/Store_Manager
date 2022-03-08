@@ -31,7 +31,7 @@ router.get('/',auth, getAllProduct);
 router.post('/:id',[auth,admin,upload.single('avatar'),], updateProduct);
 router.get('/:id',auth, getProduct);
 router.delete('/:productId', [auth,admin], deleteProduct);
-router.patch('/bulk/:categoryId', [auth,admin, productValidation], addBulkProduct);
+router.patch('/bulk/:categoryId', [auth,admin, productValidation,upload.single('avatar')], addBulkProduct);
 
 
 

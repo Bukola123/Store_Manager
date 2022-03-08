@@ -49,7 +49,7 @@ exports.addUser = async function (req, res) {
     const subject = 'User registered on Store Manager';
     const text = `Hello ${
         user.lastName
-    },\n\nPlease change your password by using the default password below: ${password} and clicking the link below.\n\nhttp://localhost:3500/api/v1/auth/newuser/:${user._id}`;
+    },\n\nPlease change your password by using the default password below: ${password} and clicking the link below.\n\nhttps://store-manager-app.herokuapp.com/api/v1/auth/newuser/:${user._id}`;
     await sendMail(email, subject, text);
 
     res.status(201).json({ msg: `Registration Successful` });
