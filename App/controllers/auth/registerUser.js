@@ -33,6 +33,14 @@ exports.registerUser = async function (req, res) {
 
     // save the user
     try {
+        // send verification email
+        const subject = 'Verify your account';
+        const text = `Hello ${
+            user.lastName
+        },\n\nPlease verify your account by clicking the link below.\n\nhttps://store-manager-app.herokuapp.com/api/v1/auth/verify?otp=${otp}&id=${
+            user._id
+        }`;
+        await sendMail(email, subject, text);
         await user.save();
     } catch (err) {
         if (err.code == 11000) {
@@ -43,14 +51,7 @@ exports.registerUser = async function (req, res) {
         return res.status(500).json({ err });
     }
 
-    // send verification email
-    const subject = 'Verify your account';
-    const text = `Hello ${
-        user.lastName
-    },\n\nPlease verify your account by clicking the link below.\n\nhttp://localhost:3500/api/v1/auth/verify?otp=${otp}&id=${
-        user._id
-    }`;
-    await sendMail(email, subject, text);
+    
 
     res.status(201).json({ msg: 'Registration Successful' });
 };
