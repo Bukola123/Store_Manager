@@ -39,21 +39,30 @@ exports.updateProduct = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
+    let {name,price,stock,Description} = req.body;
+    pro = await Product.findById(req.params.id );
+    let quantity = pro.qty;
+    let newStock = Number(stock) + quantity
+        
+
+
+
     let product;
     try {
         product = await Product.findOneAndUpdate(
-            { _id : req.params.id },
-            { $set: { ...req.body, updatedAt: Date.now() } },
+            { _id: req.params.id },
+            { $set: { ...name,price,qty:newStock,Description, updatedAt: Date.now() } },
             { new: true }
         )
             .select('-__v')
             .select('-category');
-
     } catch (err) {
+        console.log(err);
         res.status(500).send('Internal Server Error');
-        
     }
+
     
+   
     if (req.file) {
         // check that provided file is an image
         if (!req.file.originalname.endsWith('jpeg') && !req.file.originalname.endsWith('jpg')) {

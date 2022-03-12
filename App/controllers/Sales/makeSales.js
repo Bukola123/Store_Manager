@@ -47,8 +47,27 @@ exports.makeSales = async (req, res) => {
         newPrice = Number(quantity * amt)
         price.push(newPrice);
 
-    }
+        //check if qty pick is less or equal to available qty
+    
+        
+        let  stock = product.qty;
+        
 
+        if( quantity > stock ){
+            return res.status(400).json({
+                errors: [{ msg: `Quantity requested not available, only ${stock} is left ` }]
+            });
+
+        };
+        console.log(stock)
+        stock = stock - quantity;
+        product.qty =  stock;
+
+        await product.save();
+
+    }
+    
+    
     for(let i = 0;i < price.length;i++){
         totalPrice += price[i];
      
@@ -61,18 +80,7 @@ exports.makeSales = async (req, res) => {
 
         
 
-    //check if qty pick is less or equal to available qty
     
-    
-    const  stock = product.qty;
-    
-
-    if( quantity > stock ){
-        return res.status(400).json({
-            errors: [{ msg: `Quantity requested not available, only ${stock} is left ` }]
-        });
-
-    };
                 
     
     const sales = new Sales({
@@ -87,6 +95,8 @@ exports.makeSales = async (req, res) => {
     // save the user
     try {
         await sales.save();
+        
+        
         
     } catch (err) {
         if (err.code == 11000) {
