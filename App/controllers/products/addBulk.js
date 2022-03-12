@@ -90,11 +90,5 @@ exports.addBulkProduct = async (req, res) => {
     
     }
 
-    
-    
-
-    
-    
-
         return res.status(200).json(Product);
 };

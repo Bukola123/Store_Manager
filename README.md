@@ -1,9 +1,9 @@
 # STORE MANAGER API
 
 
-- [Live Preview](https://documenter.getpostman.com/view/18539754/UVXnFtpX)
+- [Live Preview](https://documenter.getpostman.com/view/18539754/UVsJvRjv)
 
-![Screenshot](Holla_API.png?raw=true "screenshot")
+![Screenshot](Store_manager.png?raw=true "screenshot")
 
 ## Description
 
